@@ -112,6 +112,31 @@ input {
   border-radius: 10px;
 }
 
-.search-bar svg rect {
-  fill: red;
+@media (max-width: 767px) {
+  .search-bar {
+    width: 100%;
+  }
+  .table {
+    margin: 0 10px 0 10px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .table {
+    margin: 0 20px 0 20px;
+  }
+}
+
+@media (max-width: 1231px) {
+  #root {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .table {
+    margin-left: 74px;
+  }
+  .pagination {
+    margin: 20px 10px 20px 10px;
+  }
 }
