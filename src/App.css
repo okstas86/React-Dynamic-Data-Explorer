@@ -1,38 +1,117 @@
-.App {
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 1232px;
+  height: 820px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+.search-bar {
+  margin: 23px 74px 15px;
+  width: 631px;
+  height: 52px;
+  background-color: #5a5c66;
+  border: #5a5c66;
+  color: #b2b7bf;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.search-bar:active,
+.search-bar:hover {
+  background-color: #bcbcbe;
+  border: #6c6f7b;
+  color: #474955;
+}
+
+input {
+  background-image: url("/public/search.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.top-table {
+  width: 1077px;
+  height: 54px;
+  background-color: #474955;
+  color: white;
+  font-weight: bold;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.title {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.table {
+  margin: 0 74px 0 74px;
+  border-collapse: collapse;
+}
+.top-table img {
+  margin-left: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.id-column {
+  width: 114px;
+}
+
+.title-column {
+  width: 534px;
+}
+
+.description-column {
+  width: 430px;
+}
+
+.table td {
+  border: 1px solid #e3e6ec;
+  font-size: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.pagination {
+  margin: 20px 100px 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #474955;
+}
+.page-numbers,
+.pagination-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.page-numbers {
+  font-family: "Roboto";
+  font-style: italic;
+}
+.page-numbers span {
+  padding: 5px;
+  font-style: italic;
+}
+.page-numbers span:hover,
+.pagination-button:hover,
+.pagination-button:active {
+  color: #474955;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+}
+
+.search-bar svg rect {
+  fill: red;
 }
