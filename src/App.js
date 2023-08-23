@@ -12,6 +12,7 @@ import Pagination from "./components/Pagination";
 import SortableColumn from "./components/SortableColumn";
 import SearchBar from "./components/SearchBar";
 import "./App.css";
+import questionData from "./data.json";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,14 +24,7 @@ const App = () => {
   const searchQuery = useSelector((state) => state.searchQuery);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(setData(data));
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    dispatch(setData(questionData));
   }, [dispatch]);
 
   const handlePageChange = (pageNumber) => {
@@ -43,44 +37,7 @@ const App = () => {
   };
 
   const getPaginatedData = () => {
-    const startIndex = (currentPage - 1) * 10;
-    const endIndex = startIndex + 10;
-
-    const sortedData = usersData.slice();
-
-    if (sortColumn === "ID") {
-      sortedData.sort((a, b) =>
-        sortOrder === "asc" ? a.id - b.id : b.id - a.id
-      );
-    } else if (sortColumn === "Заголовок") {
-      sortedData.sort((a, b) =>
-        sortOrder === "asc"
-          ? a.title.localeCompare(b.title)
-          : b.title.localeCompare(a.title)
-      );
-    } else if (sortColumn === "Описание") {
-      sortedData.sort((a, b) =>
-        sortOrder === "asc"
-          ? a.body.localeCompare(b.body)
-          : b.body.localeCompare(a.body)
-      );
-    }
-
-    return sortedData.slice(startIndex, endIndex);
-  };
-
-  const getFilteredPaginatedData = () => {
-    let filteredData = usersData.slice();
-
-    if (searchQuery) {
-      filteredData = usersData.filter((data) =>
-        Object.values(data).some((value) =>
-          String(value).toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    }
-
-    const sortedData = filteredData.slice().sort((a, b) => {
+    const sortedData = usersData.slice().sort((a, b) => {
       if (sortColumn === "ID") {
         return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
       } else if (sortColumn === "Заголовок") {
@@ -95,10 +52,30 @@ const App = () => {
       return 0;
     });
 
+    const idSet = new Set(); // Создаем множество для отслеживания уникальных id
+    const filteredAndUniqueData = [];
+
+    for (const data of sortedData) {
+      if (!idSet.has(data.id)) {
+        idSet.add(data.id);
+        filteredAndUniqueData.push(data);
+      }
+    }
+
+    let filteredData = filteredAndUniqueData;
+
+    if (searchQuery) {
+      filteredData = filteredAndUniqueData.filter((data) =>
+        Object.values(data).some((value) =>
+          String(value).toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+
     const startIndex = (currentPage - 1) * 10;
     const endIndex = startIndex + 10;
 
-    return sortedData.slice(startIndex, endIndex);
+    return filteredData.slice(startIndex, endIndex);
   };
 
   const handleSearch = (query) => {
@@ -132,8 +109,7 @@ const App = () => {
             />
           </tr>
         </thead>
-        <Table data={getFilteredPaginatedData()} searchQuery={searchQuery} />
-        <Table data={getPaginatedData()} />
+        <Table data={getPaginatedData()} searchQuery={searchQuery} />
       </table>
       <Pagination
         currentPage={currentPage}
