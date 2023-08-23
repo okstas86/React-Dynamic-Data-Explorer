@@ -1,5 +1,7 @@
+import questionData from "../data.json";
+
 const initialState = {
-  usersData: [],
+  usersData: questionData,
   currentPage: 1,
   totalPages: 1,
   sortColumn: "",
